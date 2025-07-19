@@ -35,7 +35,7 @@ public class SecurityFilterChainConfig {
                 .authorities("READ")
                 .build();
         UserDetails admin = User.withUsername("admin")
-                .password("{bcrypt}$2a$12$7OB.mBlFYNyF1A8Bywehs..y47Z33y5Ym2l7xqbz.uc6Ln6TgL106")
+                .password("{bcrypt}$2a$12$WCg543WFeq1dHzbuxWH4SucStVdpW6ZmyVfqP/QGd1zI.wG01odbK") // Eazy@123
                 .authorities("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
