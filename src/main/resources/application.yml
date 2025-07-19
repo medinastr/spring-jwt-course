@@ -4,9 +4,9 @@ spring:
       name: medinastr
       password: medinastr
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/eazybank_db}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:mysql1530}
     driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     enabled: true
@@ -18,3 +18,16 @@ spring:
       ddl-auto: none
     properties:
       show-sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+      flywaydb: DEBUG
