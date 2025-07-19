@@ -3,3 +3,18 @@ spring:
     user:
       name: medinastr
       password: medinastr
+  datasource:
+    url: jdbc:mysql://localhost:3306/eazybank_db
+    username: root
+    password: mysql1530
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      show-sql: true
