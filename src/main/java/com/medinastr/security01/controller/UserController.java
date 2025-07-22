@@ -1,7 +1,7 @@
 package com.medinastr.security01.controller;
 
 import com.medinastr.security01.mapper.CustomerMapper;
-import com.medinastr.security01.model.dto.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.service.CustomerService;
 import lombok.RequiredArgsConstructor;

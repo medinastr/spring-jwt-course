@@ -2,7 +2,7 @@ package com.medinastr.security01.service;
 
 import com.medinastr.security01.exception.InvalidDTOException;
 import com.medinastr.security01.handler.DTOHandler;
-import com.medinastr.security01.model.dto.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;

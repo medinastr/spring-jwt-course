@@ -1,6 +1,6 @@
 package com.medinastr.security01.mapper;
 
-import com.medinastr.security01.model.dto.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
 import com.medinastr.security01.model.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
