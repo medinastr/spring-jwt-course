@@ -1,10 +1,10 @@
 package com.medinastr.security01.model.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
 
+import java.time.Instant;
+
 @Getter
-@Builder
 public class ServerResponse<P> {
 
     private final String message;
@@ -13,11 +13,11 @@ public class ServerResponse<P> {
     private final Long timestamp;
     private final P payload;
 
-    public ServerResponse(String message, Integer status, String path, Long timestamp, P payload) {
+    public ServerResponse(String message, Integer status, String path, P payload) {
         this.message = message;
         this.status = status;
         this.path = path;
-        this.timestamp = timestamp;
+        this.timestamp = Instant.now().getEpochSecond();
         this.payload = payload;
     }
 }
