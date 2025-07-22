@@ -1,4 +1,4 @@
-package com.medinastr.security01.config;
+package com.medinastr.security01.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.medinastr.security01.config;
+package com.medinastr.security01.config.security;
 
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.repository.CustomerRepository;
