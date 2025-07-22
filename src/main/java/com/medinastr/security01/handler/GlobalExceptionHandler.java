@@ -1,5 +1,6 @@
 package com.medinastr.security01.handler;
 
+import com.medinastr.security01.exception.DatabaseConflictException;
 import com.medinastr.security01.exception.InvalidDTOException;
 import com.medinastr.security01.model.dto.response.ServerResponse;
 import com.medinastr.security01.utils.ServerResponseUtils;
@@ -18,5 +19,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ServerResponse<?>> handleBadRequest(InvalidDTOException exc, HttpServletRequest request) {
         String messages = String.join(", ", exc.getErrorsMessages());
         return ServerResponseUtils.error(messages, HttpStatus.BAD_REQUEST, request.getRequestURI());
+    }
+
+    @ExceptionHandler(DatabaseConflictException.class)
+    public ResponseEntity<ServerResponse<?>> handleDatabaseConflict(DatabaseConflictException exc, HttpServletRequest request) {
+        return ServerResponseUtils.error(exc.getMessage(), HttpStatus.CONFLICT, request.getRequestURI());
     }
 }
