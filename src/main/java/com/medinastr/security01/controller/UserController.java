@@ -20,6 +20,7 @@ public class UserController {
 
     @PostMapping("/customer")
     public ResponseEntity<Void> registerUser(@RequestBody CustomerRegisterDTO customerRegisterDTO) {
+        customerService.validateDTO(customerRegisterDTO);
         Customer customer = customerMapper.toEntity(customerRegisterDTO);
         customerService.createCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).build();
