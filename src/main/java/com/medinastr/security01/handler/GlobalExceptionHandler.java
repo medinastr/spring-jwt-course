@@ -1,5 +1,6 @@
 package com.medinastr.security01.handler;
 
+import com.medinastr.security01.exception.AuthException;
 import com.medinastr.security01.exception.DatabaseConflictException;
 import com.medinastr.security01.exception.InvalidDTOException;
 import com.medinastr.security01.model.dto.response.ServerResponse;
@@ -24,5 +25,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DatabaseConflictException.class)
     public ResponseEntity<ServerResponse<?>> handleDatabaseConflict(DatabaseConflictException exc, HttpServletRequest request) {
         return ServerResponseUtils.error(exc.getMessage(), HttpStatus.CONFLICT, request.getRequestURI());
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ServerResponse<?>> handleAuthException(AuthException exc, HttpServletRequest request) {
+        return ServerResponseUtils.error(exc.getMessage(), HttpStatus.UNAUTHORIZED, request.getRequestURI());
     }
 }
