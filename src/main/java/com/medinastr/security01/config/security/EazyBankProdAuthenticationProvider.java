@@ -1,5 +1,6 @@
 package com.medinastr.security01.config.security;
 
+import com.medinastr.security01.exception.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!prod")
+@Profile("prod")
 @RequiredArgsConstructor
-public class EazyBankAuthenticationProvider implements AuthenticationProvider {
+public class EazyBankProdAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -25,9 +26,9 @@ public class EazyBankAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-//        if(!passwordEncoder.matches(password, userDetails.getPassword())) {
-//            throw new AuthException("error.authentication.badCredentials");
-//        }
+        if(!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new AuthException("error.authentication.badCredentials");
+        }
 
         return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
     }
