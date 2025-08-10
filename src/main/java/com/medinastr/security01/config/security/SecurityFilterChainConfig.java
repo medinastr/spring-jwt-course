@@ -1,5 +1,6 @@
 package com.medinastr.security01.config.security;
 
+import com.medinastr.security01.handler.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -25,7 +26,7 @@ public class SecurityFilterChainConfig {
         );
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new EazyBankAuthenticationEntryPoint()));
-        http.exceptionHandling(ehc -> ehc.authenticationEntryPoint(new EazyBankAuthenticationEntryPoint()));
+        http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }
 

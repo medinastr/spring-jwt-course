@@ -23,7 +23,7 @@ public class EazyBankAuthenticationEntryPoint implements AuthenticationEntryPoin
                 MessageSourceAccessor.getNoArgsMessage(authException.getMessage()) :
                 authException.getMessage();
 
-        String jsonResponse = String.format("\"message\":\"%s\"}", message);
+        String jsonResponse = String.format("{\"message\":\"%s\"}", message);
         response.getWriter().write(jsonResponse);
 
         response.setHeader("eazybank-error-reason", "Authentication failed");
