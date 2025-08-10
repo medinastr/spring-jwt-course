@@ -1,3 +1,8 @@
+server:
+  servlet:
+    session:
+      timeout: ${SESSION_TIMEOUT:20m}
+
 spring:
   security:
     user:
