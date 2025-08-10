@@ -2,7 +2,6 @@ package com.medinastr.security01.config.security;
 
 import com.medinastr.security01.exception.AuthException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("prod")
 @RequiredArgsConstructor
 public class EazyBankProdAuthenticationProvider implements AuthenticationProvider {
 

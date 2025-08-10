@@ -17,7 +17,7 @@ public class MessageSourceAccessor {
         MessageSourceAccessor.messageSource = messageSource;
     }
 
-    public static String getMessage(String key, Object... args) {
-        return messageSource.getMessage(key, args, LocaleContextHolder.getLocale());
+    public static String getNoArgsMessage(String key) {
+        return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
     }
 }
