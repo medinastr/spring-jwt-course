@@ -17,6 +17,7 @@ public class SecurityFilterChainConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement(smc -> smc.maximumSessions(1))
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure())
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .authorizeHttpRequests(request -> request
