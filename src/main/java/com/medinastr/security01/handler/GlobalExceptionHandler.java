@@ -22,33 +22,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    private final MessageSource messageSource;
+  private final MessageSource messageSource;
 
-    @ExceptionHandler(InvalidDTOException.class)
-    public ResponseEntity<ServerResponse<?>> handleBadRequest(InvalidDTOException exc, HttpServletRequest request) {
-        String messages = getMessagesString(exc.getErrorsMessages());
-        return ServerResponseUtils.error(messages, HttpStatus.BAD_REQUEST, request.getRequestURI());
-    }
+  @ExceptionHandler(InvalidDTOException.class)
+  public ResponseEntity<ServerResponse<?>> handleBadRequest(InvalidDTOException exc, HttpServletRequest request) {
+    String messages = getMessagesString(exc.getErrorsMessages());
+    return ServerResponseUtils.error(messages, HttpStatus.BAD_REQUEST, request.getRequestURI());
+  }
 
-    @ExceptionHandler(DatabaseConflictException.class)
-    public ResponseEntity<ServerResponse<?>> handleDatabaseConflict(DatabaseConflictException exc, HttpServletRequest request) {
-        String message = getMessage(exc.getMessage());
-        return ServerResponseUtils.error(message, HttpStatus.CONFLICT, request.getRequestURI());
-    }
+  @ExceptionHandler(DatabaseConflictException.class)
+  public ResponseEntity<ServerResponse<?>> handleDatabaseConflict(
+          DatabaseConflictException exc, HttpServletRequest request) {
+    String message = getMessage(exc.getMessage());
+    return ServerResponseUtils.error(message, HttpStatus.CONFLICT, request.getRequestURI());
+  }
 
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ServerResponse<?>> handleAuthException(AuthException exc, HttpServletRequest request) {
-        String message = getMessage(exc.getMessage());
-        return ServerResponseUtils.error(message, HttpStatus.UNAUTHORIZED, request.getRequestURI());
-    }
+  @ExceptionHandler(AuthException.class)
+  public ResponseEntity<ServerResponse<?>> handleAuthException(AuthException exc, HttpServletRequest request) {
+    String message = getMessage(exc.getMessage());
+    return ServerResponseUtils.error(message, HttpStatus.UNAUTHORIZED, request.getRequestURI());
+  }
 
-    private String getMessage(String messageCode) {
-        return messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale());
-    }
+  private String getMessage(String messageCode) {
+    return messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale());
+  }
 
-    private String getMessagesString(List<String> messagesCodesList) {
-        List<String> messages = messagesCodesList.stream()
-                .map(this::getMessage).toList();
-        return String.join(", ", messages);
-    }
+  private String getMessagesString(List<String> messagesCodesList) {
+    List<String> messages = messagesCodesList.stream().map(this::getMessage).toList();
+    return String.join(", ", messages);
+  }
 }

@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.CONFLICT)
 public class DatabaseConflictException extends RuntimeException {
 
-    public DatabaseConflictException() {
-    }
+  public DatabaseConflictException() {}
 
-    public DatabaseConflictException(String message) {
-        super(message);
-    }
+  public DatabaseConflictException(String message) {
+    super(message);
+  }
 }

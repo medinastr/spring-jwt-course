@@ -15,19 +15,22 @@ import java.io.IOException;
 @Component
 public class EazyBankAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+  @Override
+  public void commence(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AuthenticationException authException)
+      throws IOException, ServletException {
 
-        String message = authException instanceof AuthException ?
-                MessageSourceAccessor.getNoArgsMessage(authException.getMessage()) :
-                authException.getMessage();
+    String message = authException instanceof AuthException
+            ? MessageSourceAccessor.getNoArgsMessage(authException.getMessage())
+            : authException.getMessage();
 
-        String jsonResponse = String.format("{\"message\":\"%s\"}", message);
-        response.getWriter().write(jsonResponse);
+    String jsonResponse = String.format("{\"message\":\"%s\"}", message);
+    response.getWriter().write(jsonResponse);
 
-        response.setHeader("eazybank-error-reason", "Authentication failed");
-        response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
-        response.setContentType("application/json:charset=UTF-8");
-    }
+    response.setHeader("eazybank-error-reason", "Authentication failed");
+    response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+    response.setContentType("application/json:charset=UTF-8");
+  }
 }

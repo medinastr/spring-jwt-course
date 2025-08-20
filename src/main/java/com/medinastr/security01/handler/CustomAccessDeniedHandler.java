@@ -13,15 +13,15 @@ import java.io.IOException;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response,
-                       AccessDeniedException accessDeniedException) throws IOException, ServletException {
+  @Override
+  public void handle(HttpServletRequest request, HttpServletResponse response,
+                     AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-        String jsonResponse = String.format("{\"message\":\"%s\"}", accessDeniedException.getMessage());
+    String jsonResponse = String.format("{\"message\":\"%s\"}", accessDeniedException.getMessage());
 
-        response.setHeader("eazybank-error-reason", "Authentication failed");
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setContentType("application/json:charset=UTF-8");
-        response.getWriter().write(jsonResponse);
-    }
+    response.setHeader("eazybank-error-reason", "Authentication failed");
+    response.setStatus(HttpStatus.FORBIDDEN.value());
+    response.setContentType("application/json:charset=UTF-8");
+    response.getWriter().write(jsonResponse);
+  }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class AuthException extends AuthenticationException {
 
-    public AuthException(String message) {
-        super(message);
-    }
+  public AuthException(String message) {
+    super(message);
+  }
 }
