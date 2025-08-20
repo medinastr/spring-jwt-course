@@ -1,5 +1,6 @@
 server:
   servlet:
+    context-path: /api/v1
     session:
       timeout: ${SESSION_TIMEOUT:20m}
 

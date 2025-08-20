@@ -27,6 +27,8 @@ public class SecurityFilterChainConfig {
                     .requestMatchers("/notices", "/contacts", "/error")
                     .permitAll()
                     .requestMatchers("/customer")
+                    .permitAll()
+                    .requestMatchers("/products")
                     .permitAll());
     http.formLogin(Customizer.withDefaults());
     http.httpBasic(hbc -> hbc.authenticationEntryPoint(new EazyBankAuthenticationEntryPoint()));
