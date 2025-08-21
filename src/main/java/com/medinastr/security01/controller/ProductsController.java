@@ -28,8 +28,8 @@ public class ProductsController {
   public CompletableFuture<ResponseEntity<ServerResponse<List<ProductsResponseDTO>>>> getProducts(
       HttpServletRequest request) {
     Page<Products> productsPage = productsService.getProductsPage(0, 15);
-    List<ProductsResponseDTO> response =
-        productsPage.stream().map(productsMapper::toResponseDTO).toList();
+    List<ProductsResponseDTO> response = productsPage.stream()
+            .map(productsMapper::toResponseDTO).toList();
     return CompletableFuture.supplyAsync(
         () ->
             ServerResponseUtils.success(
