@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,10 +27,12 @@ public class ProductsController {
 
   @GetMapping("/products")
   public CompletableFuture<ResponseEntity<ServerResponse<List<ProductsResponseDTO>>>> getProducts(
+      @RequestParam(required = false) Integer page,
+      @RequestParam Integer pageSize,
       HttpServletRequest request) {
-    Page<Products> productsPage = productsService.getProductsPage(0, 15);
-    List<ProductsResponseDTO> response = productsPage.stream()
-            .map(productsMapper::toResponseDTO).toList();
+    Page<Products> productsPage = productsService.getProductsPage(page, pageSize);
+    List<ProductsResponseDTO> response =
+        productsPage.stream().map(productsMapper::toResponseDTO).toList();
     return CompletableFuture.supplyAsync(
         () ->
             ServerResponseUtils.success(
