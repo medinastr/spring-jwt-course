@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class CustomerRegisterDTO {
 
-    @NotNull(message = "error.dto.null.email")
-    @NotBlank(message = "error.dto.null.email")
-    private String email;
+  @NotNull(message = "error.dto.null.email")
+  @NotBlank(message = "error.dto.null.email")
+  private String email;
 
-    private String password;
+  private String password;
 
-    @NotNull(message = "error.dto.null.role")
-    @NotBlank(message = "error.dto.null.role")
-    private String role;
+  @NotNull(message = "error.dto.null.role")
+  @NotBlank(message = "error.dto.null.role")
+  private String role;
 }

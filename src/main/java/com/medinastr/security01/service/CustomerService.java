@@ -17,30 +17,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final CustomerRepository customerRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    // DATABASE PERSIST
+  // DATABASE PERSIST
 
-    public Customer createCustomer(Customer customer) {
-        String hashPassword = passwordEncoder.encode(customer.getPassword());
-        customer.setPassword(hashPassword);
-        return customerRepository.save(customer);
+  public Customer createCustomer(CustomerRegisterDTO registerDTO) {
+    validateDTO(registerDTO);
+    String hashPassword = passwordEncoder.encode(registerDTO.getPassword());
+    Customer customer = Customer.builder()
+            .email(registerDTO.getEmail())
+            .password(hashPassword)
+            .role(registerDTO.getRole())
+            .build();
+    return customerRepository.save(customer);
+  }
+
+  // VALIDATIONS
+
+  public void validateConflictByEmail(String email) {
+    Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+    if (optionalCustomer.isPresent()) {
+      throw new DatabaseConflictException("User already exists.");
     }
+  }
 
-    // VALIDATIONS
-
-    public void validateConflictByEmail(String email) {
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(optionalCustomer.isPresent()) {
-            throw new DatabaseConflictException("User already exists.");
-        }
+  public void validateDTO(CustomerRegisterDTO customerRegisterDTO) {
+    List<String> errorsMessagesList = DTOHandler.handle(customerRegisterDTO);
+    if (!errorsMessagesList.isEmpty()) {
+      throw new InvalidDTOException(errorsMessagesList);
     }
-
-    public void validateDTO(CustomerRegisterDTO customerRegisterDTO) {
-        List<String> errorsMessagesList = DTOHandler.handle(customerRegisterDTO);
-        if(!errorsMessagesList.isEmpty()) {
-            throw new InvalidDTOException(errorsMessagesList);
-        }
-    }
+  }
 }

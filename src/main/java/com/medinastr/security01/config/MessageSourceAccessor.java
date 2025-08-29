@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageSourceAccessor {
 
-    private static MessageSource messageSource;
+  private static MessageSource messageSource;
 
-    public MessageSourceAccessor(MessageSource messageSource) {
-        MessageSourceAccessor.messageSource = messageSource;
-    }
+  public MessageSourceAccessor(MessageSource messageSource) {
+    MessageSourceAccessor.messageSource = messageSource;
+  }
 
-    public static void setMessageSource(MessageSource messageSource) {
-        MessageSourceAccessor.messageSource = messageSource;
-    }
+  public static void setMessageSource(MessageSource messageSource) {
+    MessageSourceAccessor.messageSource = messageSource;
+  }
 
-    public static String getMessage(String key, Object... args) {
-        return messageSource.getMessage(key, args, LocaleContextHolder.getLocale());
-    }
+  public static String getNoArgsMessage(String key) {
+    return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+  }
 }

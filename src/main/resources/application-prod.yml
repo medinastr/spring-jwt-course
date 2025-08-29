@@ -1,14 +1,9 @@
 server:
   servlet:
-    context-path: /api/v1
     session:
       timeout: ${SESSION_TIMEOUT:20m}
 
 spring:
-  config:
-    import: application-prod.yml
-  profiles:
-    active: ${PROFILE_ACTIVE}
   security:
     user:
       name: medinastr
@@ -33,7 +28,7 @@ logging:
   level:
     org:
       springframework:
-        security: TRACE
+        security: ERROR
       hibernate:
         SQL: DEBUG
         type:

@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidDTOException extends RuntimeException {
 
-    List<String> errorsMessages;
+  List<String> errorsMessages;
 }

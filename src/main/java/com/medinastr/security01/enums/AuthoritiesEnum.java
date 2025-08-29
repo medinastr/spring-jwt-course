@@ -6,8 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum AuthoritiesEnum {
-
-    READ("READ"),
-    ADMIN("ADMIN");
-    private final String authority;
+  READ("READ"),
+  ADMIN("ADMIN");
+  private final String authority;
 }

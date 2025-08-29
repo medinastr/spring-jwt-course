@@ -13,21 +13,19 @@ import java.util.Set;
 
 public class DTOHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(EasyBankBackendApplication.class);
+  private static final Logger logger = LoggerFactory.getLogger(EasyBankBackendApplication.class);
 
-    public static List<String> handle(Object dto) {
-        Validator validator;
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            validator = factory.getValidator();
-            Set<ConstraintViolation<Object>> violations = validator.validate(dto);
-            if(violations.isEmpty()) {
-                logger.info(dto.toString());
-            } else {
-                logger.error(dto.toString());
-            }
-            return violations.stream()
-                    .map(ConstraintViolation::getMessage)
-                    .toList();
-        }
+  public static List<String> handle(Object dto) {
+    Validator validator;
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+      validator = factory.getValidator();
+      Set<ConstraintViolation<Object>> violations = validator.validate(dto);
+      if (violations.isEmpty()) {
+        logger.info(dto.toString());
+      } else {
+        logger.error(dto.toString());
+      }
+      return violations.stream().map(ConstraintViolation::getMessage).toList();
     }
+  }
 }

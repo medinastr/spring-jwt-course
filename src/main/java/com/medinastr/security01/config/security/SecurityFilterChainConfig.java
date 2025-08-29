@@ -1,5 +1,6 @@
 package com.medinastr.security01.config.security;
 
+import com.medinastr.security01.handler.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -13,27 +14,35 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 @Configuration
 public class SecurityFilterChainConfig {
 
-    @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrfConfig -> csrfConfig.disable())
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/accounts", "/balances", "/loans", "cards").authenticated()
-                        .requestMatchers("/notices", "/contacts", "/error").permitAll()
-                        .requestMatchers("/customer").permitAll()
-        );
-        http.formLogin(Customizer.withDefaults());
-        http.httpBasic(Customizer.withDefaults());
-        return http.build();
-    }
+  @Bean
+  SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.sessionManagement(smc -> smc.maximumSessions(1))
+        .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure())
+        .csrf(csrfConfig -> csrfConfig.disable())
+        .authorizeHttpRequests(
+            request ->
+                request
+                    .requestMatchers("/accounts", "/balances", "/loans", "cards")
+                    .authenticated()
+                    .requestMatchers("/notices", "/contacts", "/error")
+                    .permitAll()
+                    .requestMatchers("/customer")
+                    .permitAll()
+                    .requestMatchers("/products")
+                    .permitAll());
+    http.formLogin(Customizer.withDefaults());
+    http.httpBasic(hbc -> hbc.authenticationEntryPoint(new EazyBankAuthenticationEntryPoint()));
+    http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
+    return http.build();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 
-    @Bean
-    public CompromisedPasswordChecker compromisedPasswordChecker() {
-        return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
+  @Bean
+  public CompromisedPasswordChecker compromisedPasswordChecker() {
+    return new HaveIBeenPwnedRestApiPasswordChecker();
+  }
 }
