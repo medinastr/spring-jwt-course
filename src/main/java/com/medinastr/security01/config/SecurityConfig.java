@@ -1,13 +1,13 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.config;
 
-import com.medinastr.security01.config.MessageSourceAccessor;
+import com.medinastr.security01.security.EazyBankAuthenticationEntryPoint;
+import com.medinastr.security01.security.JWTAuthenticationFilter;
 import com.medinastr.security01.exception.AuthException;
 import com.medinastr.security01.handler.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityFilterChainConfig {
+public class SecurityConfig {
 
   private final JWTAuthenticationFilter jwtAuthenticationFilter;
 

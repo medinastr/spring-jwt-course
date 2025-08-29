@@ -1,4 +1,4 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.security;
 
 import com.medinastr.security01.config.MessageSourceAccessor;
 import com.medinastr.security01.exception.AuthException;

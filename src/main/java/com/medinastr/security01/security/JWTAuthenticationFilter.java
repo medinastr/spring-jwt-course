@@ -1,4 +1,4 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.security;
 
 import com.medinastr.security01.service.JwtService;
 import jakarta.servlet.FilterChain;

@@ -1,4 +1,4 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.service;
 
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.repository.CustomerRepository;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EazyBankUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
   private final CustomerRepository customerRepository;
 
