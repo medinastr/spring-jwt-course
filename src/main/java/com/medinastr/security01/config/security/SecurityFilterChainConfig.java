@@ -1,22 +1,36 @@
 package com.medinastr.security01.config.security;
 
+import com.medinastr.security01.config.MessageSourceAccessor;
+import com.medinastr.security01.exception.AuthException;
 import com.medinastr.security01.handler.CustomAccessDeniedHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityFilterChainConfig {
+
+  private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.sessionManagement(smc -> smc.maximumSessions(1))
+    http.sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure())
         .csrf(csrfConfig -> csrfConfig.disable())
         .authorizeHttpRequests(
@@ -33,6 +47,7 @@ public class SecurityFilterChainConfig {
     http.formLogin(Customizer.withDefaults());
     http.httpBasic(hbc -> hbc.authenticationEntryPoint(new EazyBankAuthenticationEntryPoint()));
     http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
@@ -44,5 +59,18 @@ public class SecurityFilterChainConfig {
   @Bean
   public CompromisedPasswordChecker compromisedPasswordChecker() {
     return new HaveIBeenPwnedRestApiPasswordChecker();
+  }
+
+  @Bean
+  public AuthenticationEntryPoint authenticationEntryPoint() {
+    return ((request, response, exc) -> {
+      String message = exc instanceof AuthException
+              ? MessageSourceAccessor.getNoArgsMessage(exc.getMessage())
+              : exc.getMessage();
+      response.setStatus(HttpStatus.UNAUTHORIZED.value());
+      response.setContentType("application/json");
+      response.setHeader("WWW-Authenticate", "Authentication failed");
+      response.getWriter().write("{\"message\":\"" + message + "\"}");
+    });
   }
 }
