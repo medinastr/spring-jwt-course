@@ -40,9 +40,11 @@ public class SecurityConfig {
                     .authenticated()
                     .requestMatchers("/notices", "/contacts", "/error")
                     .permitAll()
-                    .requestMatchers("/customer")
+                    .requestMatchers("/auth", "/auth/**")
                     .permitAll()
                     .requestMatchers("/products")
+                    .permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .permitAll());
     http.formLogin(Customizer.withDefaults());
     http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));

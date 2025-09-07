@@ -17,7 +17,7 @@ public class ServerResponse<P> {
     this.message = message;
     this.status = status;
     this.path = path;
-    this.timestamp = Instant.now().getEpochSecond();
+    this.timestamp = Instant.now().toEpochMilli();
     this.payload = payload;
   }
 }
