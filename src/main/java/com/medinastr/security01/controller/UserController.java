@@ -24,7 +24,6 @@ public class UserController {
   @PostMapping("/customer")
   public CompletableFuture<ResponseEntity<?>> registerUser(
       @RequestBody CustomerRegisterDTO customerRegisterDTO, HttpServletRequest request) {
-    customerService.validateConflictByEmail(customerRegisterDTO.getEmail());
     customerService.createCustomer(customerRegisterDTO);
     return CompletableFuture.supplyAsync(
         () ->
