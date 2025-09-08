@@ -40,7 +40,7 @@ public class SecurityConfig {
                     .authenticated()
                     .requestMatchers("/notices", "/contacts", "/error")
                     .permitAll()
-                    .requestMatchers("/customer")
+                    .requestMatchers("/auth")
                     .permitAll()
                     .requestMatchers("/products")
                     .permitAll());

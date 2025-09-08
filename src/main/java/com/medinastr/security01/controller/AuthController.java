@@ -5,6 +5,7 @@ import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
 import com.medinastr.security01.service.CustomerService;
 import com.medinastr.security01.utils.ServerResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,12 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
   private final CustomerService customerService;
-  private final CustomerMapper customerMapper;
 
-  @PostMapping("/customer")
+  @PostMapping("/auth")
+  @Transactional
   public CompletableFuture<ResponseEntity<?>> registerUser(
       @RequestBody CustomerRegisterDTO customerRegisterDTO, HttpServletRequest request) {
     customerService.validateConflictByEmail(customerRegisterDTO.getEmail());
