@@ -6,6 +6,7 @@ import com.medinastr.security01.handler.DTOHandler;
 import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,20 @@ public class CustomerService {
 
   // DATABASE PERSIST
 
+  @Transactional
   public Customer createCustomer(CustomerRegisterDTO registerDTO) {
     validateDTO(registerDTO);
-    String hashPassword = passwordEncoder.encode(registerDTO.getPassword());
-    Customer customer = Customer.builder()
-            .email(registerDTO.getEmail())
-            .password(hashPassword)
-            .role(registerDTO.getRole())
-            .build();
+    validateConflictByEmail(registerDTO.getEmail());
+    Customer customer = buildNewUser(registerDTO);
     return customerRepository.save(customer);
+  }
+
+  public Customer buildNewUser(CustomerRegisterDTO registerDTO) {
+      return Customer.builder()
+              .email(registerDTO.getEmail())
+              .password(passwordEncoder.encode(registerDTO.getPassword()))
+              .role(registerDTO.getRole())
+              .build();
   }
 
   // VALIDATIONS
@@ -38,7 +44,7 @@ public class CustomerService {
   public void validateConflictByEmail(String email) {
     Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
     if (optionalCustomer.isPresent()) {
-      throw new DatabaseConflictException("User already exists.");
+      throw new DatabaseConflictException("User with this email already exists.");
     }
   }
 
