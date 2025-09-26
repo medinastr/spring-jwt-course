@@ -24,7 +24,7 @@ spring:
     properties:
       show-sql: true
   jwt:
-    secret: ${JWT_SECRET:medinastr}
+    secret: ${JWT_SECRET:jetYmfACxddAuexPznq1z5ui9sP6ibIER7vaFO9I4mY=}
     expiration: ${JWT_EXPIRATION:900000} # 15 minutes in milliseconds
 
 logging:

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -32,11 +32,12 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+        // A nova forma usa um "parser builder" que é mais seguro e explícito.
         return Jwts.parser()
-                .setSigningKey(getSignInKey())
+                .verifyWith(getSignInKey()) // <-- MÉTODO RECOMENDADO
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token) // usa-se parseSignedClaims com o novo parser
+                .getPayload();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -58,11 +59,11 @@ public class JwtService {
                 .claim("username", username)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-                .signWith(getSignInKey(), SignatureAlgorithm.ES256)
+                .signWith(getSignInKey())
                 .compact();
     }
 
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET); // Decode the Base64-encoded secret
         return Keys.hmacShaKeyFor(keyBytes);
     }
