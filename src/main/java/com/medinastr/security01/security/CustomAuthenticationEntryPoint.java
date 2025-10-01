@@ -1,4 +1,4 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.security;
 
 import com.medinastr.security01.config.MessageSourceAccessor;
 import com.medinastr.security01.exception.AuthException;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class EazyBankAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
   @Override
   public void commence(
@@ -22,7 +22,8 @@ public class EazyBankAuthenticationEntryPoint implements AuthenticationEntryPoin
       AuthenticationException authException)
       throws IOException, ServletException {
 
-    String message = authException instanceof AuthException
+    String message =
+        authException instanceof AuthException
             ? MessageSourceAccessor.getNoArgsMessage(authException.getMessage())
             : authException.getMessage();
 

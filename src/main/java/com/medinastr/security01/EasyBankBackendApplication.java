@@ -10,8 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 public class EasyBankBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EasyBankBackendApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(EasyBankBackendApplication.class, args);
+  }
 }

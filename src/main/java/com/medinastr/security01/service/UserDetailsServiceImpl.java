@@ -1,4 +1,4 @@
-package com.medinastr.security01.config.security;
+package com.medinastr.security01.service;
 
 import com.medinastr.security01.model.entity.Customer;
 import com.medinastr.security01.repository.CustomerRepository;
@@ -15,14 +15,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EazyBankUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
   private final CustomerRepository customerRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Customer customer = customerRepository.findByEmail(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User details not found for the user: " + username));
+    Customer customer =
+        customerRepository
+            .findByEmail(username)
+            .orElseThrow(
+                () ->
+                    new UsernameNotFoundException(
+                        "User details not found for the user: " + username));
     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
     return new User(customer.getEmail(), customer.getPassword(), authorities);
   }
