@@ -25,20 +25,22 @@ public class GlobalExceptionHandler {
   private final MessageSource messageSource;
 
   @ExceptionHandler(InvalidDTOException.class)
-  public ResponseEntity<ServerResponse<?>> handleBadRequest(InvalidDTOException exc, HttpServletRequest request) {
+  public ResponseEntity<ServerResponse<?>> handleBadRequest(
+      InvalidDTOException exc, HttpServletRequest request) {
     String messages = getMessagesString(exc.getErrorsMessages());
     return ServerResponseUtils.error(messages, HttpStatus.BAD_REQUEST, request.getRequestURI());
   }
 
   @ExceptionHandler(DatabaseConflictException.class)
   public ResponseEntity<ServerResponse<?>> handleDatabaseConflict(
-          DatabaseConflictException exc, HttpServletRequest request) {
+      DatabaseConflictException exc, HttpServletRequest request) {
     String message = getMessage(exc.getMessage());
     return ServerResponseUtils.error(message, HttpStatus.CONFLICT, request.getRequestURI());
   }
 
   @ExceptionHandler(AuthException.class)
-  public ResponseEntity<ServerResponse<?>> handleAuthException(AuthException exc, HttpServletRequest request) {
+  public ResponseEntity<ServerResponse<?>> handleAuthException(
+      AuthException exc, HttpServletRequest request) {
     String message = getMessage(exc.getMessage());
     return ServerResponseUtils.error(message, HttpStatus.UNAUTHORIZED, request.getRequestURI());
   }

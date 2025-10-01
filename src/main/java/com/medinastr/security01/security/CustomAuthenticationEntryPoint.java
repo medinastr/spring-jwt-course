@@ -22,7 +22,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
       AuthenticationException authException)
       throws IOException, ServletException {
 
-    String message = authException instanceof AuthException
+    String message =
+        authException instanceof AuthException
             ? MessageSourceAccessor.getNoArgsMessage(authException.getMessage())
             : authException.getMessage();
 

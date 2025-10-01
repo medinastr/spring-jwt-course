@@ -43,29 +43,29 @@ public class CustomerService {
   public String login(AuthenticationRequestDTO requestDTO) {
     try {
       authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(requestDTO.getEmail(), requestDTO.getPassword()));
+          new UsernamePasswordAuthenticationToken(requestDTO.getEmail(), requestDTO.getPassword()));
       Customer customer = getByEmail(requestDTO.getEmail());
       return jwtService.generateToken(customer.getEmail());
-    }
-    catch (ObjectNotFoundException exc) {
+    } catch (ObjectNotFoundException exc) {
       log.error("Login failed to email {}", requestDTO.getEmail());
       throw new AuthException("error.login.credentials");
     }
   }
 
   public Customer buildNewUser(CustomerRegisterDTO registerDTO) {
-      return Customer.builder()
-              .email(registerDTO.getEmail())
-              .password(passwordEncoder.encode(registerDTO.getPassword()))
-              .role(registerDTO.getRole())
-              .build();
+    return Customer.builder()
+        .email(registerDTO.getEmail())
+        .password(passwordEncoder.encode(registerDTO.getPassword()))
+        .role(registerDTO.getRole())
+        .build();
   }
 
   // READ
 
   public Customer getByEmail(String email) {
-    return customerRepository.findByEmail(email)
-            .orElseThrow(() -> new ObjectNotFoundException("error.user.notFound"));
+    return customerRepository
+        .findByEmail(email)
+        .orElseThrow(() -> new ObjectNotFoundException("error.user.notFound"));
   }
 
   // VALIDATIONS

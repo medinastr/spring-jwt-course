@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CardsController {
 
-    @GetMapping("/cards")
-    public ResponseEntity<String> getCardsDetails() {
-        return ResponseEntity.status(HttpStatus.OK).body("Here are the cards details from the DB");
-    }
+  @GetMapping("/cards")
+  public ResponseEntity<String> getCardsDetails() {
+    return ResponseEntity.status(HttpStatus.OK).body("Here are the cards details from the DB");
+  }
 }

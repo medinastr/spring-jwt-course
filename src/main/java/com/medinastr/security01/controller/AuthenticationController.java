@@ -38,13 +38,14 @@ public class AuthenticationController implements AuthenticationApi {
   // POST -> /auth/login
   @Override
   public CompletableFuture<ResponseEntity<ServerResponse<AuthenticationResponseDTO>>> login(
-          AuthenticationRequestDTO requestDTO, HttpServletRequest request) {
+      AuthenticationRequestDTO requestDTO, HttpServletRequest request) {
     String jwtToken = customerService.login(requestDTO);
     return CompletableFuture.supplyAsync(
-            () -> ServerResponseUtils.success(
-                    "Successesfully login",
-                    HttpStatus.OK,
-                    request.getRequestURI(),
-                    new AuthenticationResponseDTO(jwtToken)));
+        () ->
+            ServerResponseUtils.success(
+                "Successesfully login",
+                HttpStatus.OK,
+                request.getRequestURI(),
+                new AuthenticationResponseDTO(jwtToken)));
   }
 }

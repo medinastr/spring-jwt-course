@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.concurrent.CompletableFuture;
 
 @RequestMapping("/auth")
-@Tag(name = "Authentication", description = "Operations related to system authentication (login and register)")
+@Tag(
+    name = "Authentication",
+    description = "Operations related to system authentication (login and register)")
 public interface AuthenticationApi {
 
   @Operation(
@@ -26,9 +28,9 @@ public interface AuthenticationApi {
       @RequestBody CustomerRegisterDTO customerRegisterDTO, HttpServletRequest request);
 
   @Operation(
-          summary = "Login a user",
-          description = "User login authentication by email and password.")
+      summary = "Login a user",
+      description = "User login authentication by email and password.")
   @PostMapping("/login")
   public CompletableFuture<ResponseEntity<ServerResponse<AuthenticationResponseDTO>>> login(
-          @RequestBody AuthenticationRequestDTO requestDTO, HttpServletRequest request);
+      @RequestBody AuthenticationRequestDTO requestDTO, HttpServletRequest request);
 }

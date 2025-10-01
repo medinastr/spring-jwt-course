@@ -10,7 +10,8 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
-  @Query("""
+  @Query(
+      """
         SELECT c FROM Customer c WHERE c.email = :email
         """)
   Optional<Customer> findByEmail(String email);

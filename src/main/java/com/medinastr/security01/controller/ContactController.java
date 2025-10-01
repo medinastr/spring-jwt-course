@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ContactController {
 
-    @GetMapping("/contacts")
-    public ResponseEntity<String> saveContactInquiryDetails() {
-        return ResponseEntity.status(HttpStatus.OK).body("Inquiry details saved.");
-    }
+  @GetMapping("/contacts")
+  public ResponseEntity<String> saveContactInquiryDetails() {
+    return ResponseEntity.status(HttpStatus.OK).body("Inquiry details saved.");
+  }
 }
