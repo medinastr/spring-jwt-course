@@ -5,11 +5,15 @@ import com.medinastr.security01.model.entity.User;
 
 public interface UserService {
 
+    // PERSIST
+
     User createNewUser(UserRegisterDTO registerDTO);
 
     // READ
 
     User getByEmail(String email);
+
+    User getAuthenticated();
 
     // VALIDATIONS
 

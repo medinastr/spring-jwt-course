@@ -1,5 +1,6 @@
 package com.medinastr.security01.model.dto.request;
 
+import com.medinastr.security01.enums.AuthoritiesEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -15,5 +16,5 @@ public class UserRegisterDTO {
 
   @NotNull(message = "error.dto.null.role")
   @NotBlank(message = "error.dto.null.role")
-  private String role;
+  private AuthoritiesEnum role;
 }

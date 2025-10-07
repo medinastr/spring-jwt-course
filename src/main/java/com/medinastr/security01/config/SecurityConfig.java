@@ -1,6 +1,5 @@
 package com.medinastr.security01.config;
 
-import com.medinastr.security01.security.CustomAuthenticationEntryPoint;
 import com.medinastr.security01.security.JWTAuthenticationFilter;
 import com.medinastr.security01.exception.AuthException;
 import com.medinastr.security01.handler.CustomAccessDeniedHandler;
@@ -49,7 +48,7 @@ public class SecurityConfig {
                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .permitAll());
     http.formLogin(Customizer.withDefaults());
-    http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
+    http.httpBasic(hbc -> hbc.authenticationEntryPoint(authenticationEntryPoint()));
     http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
