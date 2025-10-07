@@ -1,7 +1,7 @@
 package com.medinastr.security01.api;
 
 import com.medinastr.security01.model.dto.request.AuthenticationResponseDTO;
-import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.UserRegisterDTO;
 import com.medinastr.security01.model.dto.response.AuthenticationRequestDTO;
 import com.medinastr.security01.model.dto.response.ServerResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public interface AuthenticationApi {
       description = "Creates a new user account with the provided details.")
   @PostMapping("/register")
   public CompletableFuture<ResponseEntity<?>> registerUser(
-      @RequestBody CustomerRegisterDTO customerRegisterDTO, HttpServletRequest request);
+          @RequestBody UserRegisterDTO userRegisterDTO, HttpServletRequest request);
 
   @Operation(
       summary = "Login a user",

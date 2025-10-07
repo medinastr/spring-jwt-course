@@ -1,5 +1,6 @@
 package com.medinastr.security01.service;
 
+import com.medinastr.security01.service.interfaces.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -12,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 
   @Value("${spring.jwt.secret}")
   private String JWT_SECRET;
@@ -20,6 +21,7 @@ public class JwtService {
   @Value("${spring.jwt.expiration}")
   private long JWT_EXPIRATION;
 
+  @Override
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
   }
@@ -38,6 +40,7 @@ public class JwtService {
         .getPayload();
   }
 
+  @Override
   public boolean isTokenValid(String token, UserDetails userDetails) {
     final String username = extractUsername(token);
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
@@ -51,6 +54,7 @@ public class JwtService {
     return extractClaim(token, Claims::getExpiration);
   }
 
+  @Override
   public String generateToken(String username) {
     return Jwts.builder()
         .subject(username)

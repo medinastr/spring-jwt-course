@@ -5,10 +5,11 @@ import com.medinastr.security01.exception.DatabaseConflictException;
 import com.medinastr.security01.exception.InvalidDTOException;
 import com.medinastr.security01.exception.ObjectNotFoundException;
 import com.medinastr.security01.handler.DTOHandler;
-import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.UserRegisterDTO;
 import com.medinastr.security01.model.dto.response.AuthenticationRequestDTO;
-import com.medinastr.security01.model.entity.Customer;
-import com.medinastr.security01.repository.CustomerRepository;
+import com.medinastr.security01.model.entity.User;
+import com.medinastr.security01.repository.UserRepository;
+import com.medinastr.security01.service.interfaces.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,37 +24,37 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CustomerService {
+public class UserServiceImpl implements UserService {
 
-  private final CustomerRepository customerRepository;
+  private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final AuthenticationManager authenticationManager;
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtServiceImpl;
 
   // DATABASE PERSIST
 
   @Transactional
-  public Customer createCustomer(CustomerRegisterDTO registerDTO) {
+  public User createCustomer(UserRegisterDTO registerDTO) {
     validateDTO(registerDTO);
     validateConflictByEmail(registerDTO.getEmail());
-    Customer customer = buildNewUser(registerDTO);
-    return customerRepository.save(customer);
+    User user = buildNewUser(registerDTO);
+    return userRepository.save(user);
   }
 
   public String login(AuthenticationRequestDTO requestDTO) {
     try {
       authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(requestDTO.getEmail(), requestDTO.getPassword()));
-      Customer customer = getByEmail(requestDTO.getEmail());
-      return jwtService.generateToken(customer.getEmail());
+      User user = getByEmail(requestDTO.getEmail());
+      return jwtServiceImpl.generateToken(user.getEmail());
     } catch (ObjectNotFoundException exc) {
       log.error("Login failed to email {}", requestDTO.getEmail());
       throw new AuthException("error.login.credentials");
     }
   }
 
-  public Customer buildNewUser(CustomerRegisterDTO registerDTO) {
-    return Customer.builder()
+  public User buildNewUser(UserRegisterDTO registerDTO) {
+    return User.builder()
         .email(registerDTO.getEmail())
         .password(passwordEncoder.encode(registerDTO.getPassword()))
         .role(registerDTO.getRole())
@@ -62,8 +63,8 @@ public class CustomerService {
 
   // READ
 
-  public Customer getByEmail(String email) {
-    return customerRepository
+  public User getByEmail(String email) {
+    return userRepository
         .findByEmail(email)
         .orElseThrow(() -> new ObjectNotFoundException("error.user.notFound"));
   }
@@ -71,14 +72,14 @@ public class CustomerService {
   // VALIDATIONS
 
   public void validateConflictByEmail(String email) {
-    Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+    Optional<User> optionalCustomer = userRepository.findByEmail(email);
     if (optionalCustomer.isPresent()) {
       throw new DatabaseConflictException("User with this email already exists.");
     }
   }
 
-  public void validateDTO(CustomerRegisterDTO customerRegisterDTO) {
-    List<String> errorsMessagesList = DTOHandler.handle(customerRegisterDTO);
+  public void validateDTO(UserRegisterDTO userRegisterDTO) {
+    List<String> errorsMessagesList = DTOHandler.handle(userRegisterDTO);
     if (!errorsMessagesList.isEmpty()) {
       throw new InvalidDTOException(errorsMessagesList);
     }

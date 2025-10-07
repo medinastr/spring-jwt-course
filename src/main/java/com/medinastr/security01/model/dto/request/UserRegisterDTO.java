@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CustomerRegisterDTO {
+public class UserRegisterDTO {
 
   @NotNull(message = "error.dto.null.email")
   @NotBlank(message = "error.dto.null.email")
