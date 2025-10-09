@@ -45,6 +45,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers("/products")
                     .permitAll()
+                    .requestMatchers("/users", "/users/**")
+                    .authenticated()
                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .permitAll());
     http.formLogin(Customizer.withDefaults());

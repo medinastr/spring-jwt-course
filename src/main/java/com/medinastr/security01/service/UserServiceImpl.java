@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     } catch (ObjectNotFoundException e) {
       log.error("Authenticated user not found: {}", e.getMessage());
-      throw new ObjectNotFoundException("Authenticated user not found.");
+      throw new AuthException("Authenticated user not found.");
     } catch (Exception e) {
       log.error("Error getting authenticated user: {}", e.getMessage());
       throw new AuthException("Error getting authenticated user.");

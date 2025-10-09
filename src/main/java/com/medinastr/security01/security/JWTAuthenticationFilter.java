@@ -24,7 +24,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
   private final UserDetailsService userDetailsService;
 
   public JWTAuthenticationFilter(
-          JwtServiceImpl jwtServiceImpl, @Lazy UserDetailsService userDetailsService) {
+      JwtServiceImpl jwtServiceImpl, @Lazy UserDetailsService userDetailsService) {
     this.jwtServiceImpl = jwtServiceImpl;
     this.userDetailsService = userDetailsService;
   }
@@ -51,7 +51,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        response.setHeader(authHeader, "Bearer " + jwt);
+        response.setHeader("Authorization", "Bearer " + jwt);
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
     }
