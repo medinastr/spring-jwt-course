@@ -1,6 +1,6 @@
 package com.medinastr.security01.security;
 
-import com.medinastr.security01.service.JwtService;
+import com.medinastr.security01.service.JwtServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,12 +20,12 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtServiceImpl;
   private final UserDetailsService userDetailsService;
 
   public JWTAuthenticationFilter(
-      JwtService jwtService, @Lazy UserDetailsService userDetailsService) {
-    this.jwtService = jwtService;
+      JwtServiceImpl jwtServiceImpl, @Lazy UserDetailsService userDetailsService) {
+    this.jwtServiceImpl = jwtServiceImpl;
     this.userDetailsService = userDetailsService;
   }
 
@@ -43,15 +43,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     jwt = authHeader.substring(7); // Extract token after "Bearer "
-    username = jwtService.extractUsername(jwt);
+    username = jwtServiceImpl.extractUsername(jwt);
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      if (jwtService.isTokenValid(jwt, userDetails)) {
+      if (jwtServiceImpl.isTokenValid(jwt, userDetails)) {
         UsernamePasswordAuthenticationToken authToken =
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        response.setHeader(authHeader, "Bearer " + jwt);
+        response.setHeader("Authorization", "Bearer " + jwt);
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
     }

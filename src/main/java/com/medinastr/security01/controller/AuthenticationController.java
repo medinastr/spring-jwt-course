@@ -2,10 +2,10 @@ package com.medinastr.security01.controller;
 
 import com.medinastr.security01.api.AuthenticationApi;
 import com.medinastr.security01.model.dto.request.AuthenticationResponseDTO;
-import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
+import com.medinastr.security01.model.dto.request.UserRegisterDTO;
 import com.medinastr.security01.model.dto.response.AuthenticationRequestDTO;
 import com.medinastr.security01.model.dto.response.ServerResponse;
-import com.medinastr.security01.service.CustomerService;
+import com.medinastr.security01.service.interfaces.AuthenticationService;
 import com.medinastr.security01.utils.ServerResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.concurrent.CompletableFuture;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController implements AuthenticationApi {
 
-  private final CustomerService customerService;
+  private final AuthenticationService authenticationService;
 
   // POST -> /auth/register
   @Override
   public CompletableFuture<ResponseEntity<?>> registerUser(
-      @RequestBody CustomerRegisterDTO customerRegisterDTO, HttpServletRequest request) {
-    customerService.createCustomer(customerRegisterDTO);
+      @RequestBody UserRegisterDTO userRegisterDTO, HttpServletRequest request) {
+    authenticationService.register(userRegisterDTO);
     return CompletableFuture.supplyAsync(
         () ->
             ServerResponseUtils.success(
@@ -39,7 +39,7 @@ public class AuthenticationController implements AuthenticationApi {
   @Override
   public CompletableFuture<ResponseEntity<ServerResponse<AuthenticationResponseDTO>>> login(
       AuthenticationRequestDTO requestDTO, HttpServletRequest request) {
-    String jwtToken = customerService.login(requestDTO);
+    String jwtToken = authenticationService.login(requestDTO);
     return CompletableFuture.supplyAsync(
         () ->
             ServerResponseUtils.success(

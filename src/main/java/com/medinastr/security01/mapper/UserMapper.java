@@ -1,7 +1,8 @@
 package com.medinastr.security01.mapper;
 
-import com.medinastr.security01.model.dto.request.CustomerRegisterDTO;
-import com.medinastr.security01.model.entity.Customer;
+import com.medinastr.security01.model.dto.request.UserRegisterDTO;
+import com.medinastr.security01.model.dto.response.UserInfosDTO;
+import com.medinastr.security01.model.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -10,7 +11,9 @@ import org.mapstruct.ReportingPolicy;
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     componentModel = "spring")
-public interface CustomerMapper {
+public interface UserMapper {
 
-  Customer toEntity(CustomerRegisterDTO dto);
+  User toEntity(UserRegisterDTO dto);
+
+  UserInfosDTO toUserInfosDTO(User user);
 }
