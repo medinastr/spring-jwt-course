@@ -15,6 +15,5 @@ public class UserRegisterDTO {
   private String password;
 
   @NotNull(message = "error.dto.null.role")
-  @NotBlank(message = "error.dto.null.role")
   private AuthoritiesEnum role;
 }

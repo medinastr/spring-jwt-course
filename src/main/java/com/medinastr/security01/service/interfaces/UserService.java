@@ -1,23 +1,26 @@
 package com.medinastr.security01.service.interfaces;
 
 import com.medinastr.security01.model.dto.request.UserRegisterDTO;
+import com.medinastr.security01.model.entity.Account;
 import com.medinastr.security01.model.entity.User;
 
 public interface UserService {
 
-    // PERSIST
+  // PERSIST
 
-    User createNewUser(UserRegisterDTO registerDTO);
+  User createNewUser(UserRegisterDTO registerDTO);
 
-    // READ
+  User saveLastLoginAccount(User user, Account account);
 
-    User getByEmail(String email);
+  // READ
 
-    User getAuthenticated();
+  User getByEmail(String email);
 
-    // VALIDATIONS
+  User getAuthenticated();
 
-    void validateConflictByEmail(String email);
+  // VALIDATIONS
 
-    void validateDTO(UserRegisterDTO userRegisterDTO);
+  void validateConflictByEmail(String email);
+
+  void validateDTO(UserRegisterDTO userRegisterDTO);
 }

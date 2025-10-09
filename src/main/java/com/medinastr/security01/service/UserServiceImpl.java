@@ -6,6 +6,7 @@ import com.medinastr.security01.exception.InvalidDTOException;
 import com.medinastr.security01.exception.ObjectNotFoundException;
 import com.medinastr.security01.handler.DTOHandler;
 import com.medinastr.security01.model.dto.request.UserRegisterDTO;
+import com.medinastr.security01.model.entity.Account;
 import com.medinastr.security01.model.entity.User;
 import com.medinastr.security01.repository.UserRepository;
 import com.medinastr.security01.service.interfaces.UserService;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
   // DATABASE PERSIST
 
+  @Override
   public User createNewUser(UserRegisterDTO registerDTO) {
     User user =
         User.builder()
@@ -35,6 +37,12 @@ public class UserServiceImpl implements UserService {
             .password(passwordEncoder.encode(registerDTO.getPassword()))
             .role(registerDTO.getRole())
             .build();
+    return userRepository.save(user);
+  }
+
+  @Override
+  public User saveLastLoginAccount(User user, Account account) {
+    user.setLastLoginAccount(account);
     return userRepository.save(user);
   }
 

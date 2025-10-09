@@ -7,6 +7,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +34,10 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   private AuthoritiesEnum role;
+
+  @OneToOne
+  @JoinColumn(name = "last_login_account_id")
+  private Account lastLoginAccount;
 
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(role);

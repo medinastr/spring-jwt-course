@@ -4,7 +4,9 @@ import com.medinastr.security01.exception.AuthException;
 import com.medinastr.security01.exception.ObjectNotFoundException;
 import com.medinastr.security01.model.dto.request.UserRegisterDTO;
 import com.medinastr.security01.model.dto.response.AuthenticationRequestDTO;
+import com.medinastr.security01.model.entity.Account;
 import com.medinastr.security01.model.entity.User;
+import com.medinastr.security01.service.interfaces.AccountService;
 import com.medinastr.security01.service.interfaces.AuthenticationService;
 import com.medinastr.security01.service.interfaces.UserService;
 import jakarta.transaction.Transactional;
@@ -22,13 +24,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final UserService userService;
   private final AuthenticationManager authenticationManager;
   private final JwtServiceImpl jwtServiceImpl;
+  private final AccountService accountService;
 
   @Override
   @Transactional
-  public User register(UserRegisterDTO registerDTO) {
+  public void register(UserRegisterDTO registerDTO) {
     userService.validateDTO(registerDTO);
     userService.validateConflictByEmail(registerDTO.getEmail());
-    return userService.createNewUser(registerDTO);
+    User user = userService.createNewUser(registerDTO);
+    Account account = accountService.createAccount(user);
+    userService.saveLastLoginAccount(user, account);
   }
 
   @Override
