@@ -5,5 +5,13 @@ import com.medinastr.security01.model.entity.User;
 
 public interface AccountService {
 
+  // PERSIST
+
   Account createAccount(User requester);
+
+  // READ
+
+  Account getAuthenticated();
+
+  Account getById(Long id);
 }

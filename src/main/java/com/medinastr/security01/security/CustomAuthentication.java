@@ -1,5 +1,6 @@
 package com.medinastr.security01.security;
 
+import com.medinastr.security01.enums.SystemContext;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,13 +12,13 @@ import java.util.Collection;
 @Getter
 public class CustomAuthentication extends UsernamePasswordAuthenticationToken {
 
-  private Integer accountId;
+  private Long accountId;
 
-  private String context;
+  private SystemContext context;
 
   public CustomAuthentication(
-      Integer accountId,
-      String context,
+      Long accountId,
+      SystemContext context,
       Object principal,
       Object credentials,
       Collection<? extends GrantedAuthority> authorities) {

@@ -9,6 +9,7 @@ import com.medinastr.security01.model.dto.request.UserRegisterDTO;
 import com.medinastr.security01.model.entity.Account;
 import com.medinastr.security01.model.entity.User;
 import com.medinastr.security01.repository.UserRepository;
+import com.medinastr.security01.service.interfaces.AccountService;
 import com.medinastr.security01.service.interfaces.UserService;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final AccountService accountService;
 
   // DATABASE PERSIST
 
@@ -57,6 +59,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getAuthenticated() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    log.debug("Getting authenticated user: {}", authentication.getName());
     try {
       String email = authentication.getName();
       return getByEmail(email);

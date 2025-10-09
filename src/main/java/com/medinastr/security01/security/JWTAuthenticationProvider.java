@@ -1,13 +1,14 @@
 package com.medinastr.security01.security;
 
+import com.medinastr.security01.enums.SystemContext;
 import com.medinastr.security01.exception.AuthException;
+import com.medinastr.security01.model.entity.User;
+import com.medinastr.security01.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,21 +16,25 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JWTAuthenticationProvider implements AuthenticationProvider {
 
-  private final UserDetailsService userDetailsService;
   private final PasswordEncoder passwordEncoder;
+  private final UserService userService;
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     String username = authentication.getName();
     String password = authentication.getCredentials().toString();
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    User user = userService.getByEmail(username);
 
-    if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+    if (!passwordEncoder.matches(password, user.getPassword())) {
       throw new AuthException("error.authentication.badCredentials");
     }
 
-    return new UsernamePasswordAuthenticationToken(
-        username, password, userDetails.getAuthorities());
+    return new CustomAuthentication(
+        user.getLastLoginAccount().getId(),
+        SystemContext.WEB,
+        username,
+        password,
+        user.getAuthorities());
   }
 
   @Override
