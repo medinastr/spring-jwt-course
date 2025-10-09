@@ -11,10 +11,18 @@ import java.util.Collection;
 @Getter
 public class CustomAuthentication extends UsernamePasswordAuthenticationToken {
 
-  Integer accountId;
+  private Integer accountId;
+
+  private String context;
 
   public CustomAuthentication(
-      Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+      Integer accountId,
+      String context,
+      Object principal,
+      Object credentials,
+      Collection<? extends GrantedAuthority> authorities) {
     super(principal, credentials, authorities);
+    this.accountId = accountId;
+    this.context = context;
   }
 }
