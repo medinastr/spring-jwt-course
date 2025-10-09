@@ -19,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Setter
 @Builder
 @Entity
-@Table(name = "customer")
+@Table(name = "users")
 public class User {
 
   @Id
