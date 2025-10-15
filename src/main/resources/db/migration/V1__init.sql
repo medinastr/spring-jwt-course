@@ -1,14 +1,15 @@
-CREATE TABLE users (
-    username VARCHAR(150) NOT NULL PRIMARY KEY,
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    enabled BOOLEAN NOT NULL
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE authorities(
-    username VARCHAR(150) NOT NULL,
-    authority VARCHAR(50) NOT NULL,
-     CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users (username)
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    price DECIMAL(10, 2) NOT NULL
 );
-
-CREATE UNIQUE INDEX ix_auth_username
-ON authorities (username, authority);
